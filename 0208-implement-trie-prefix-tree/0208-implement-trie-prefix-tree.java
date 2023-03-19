@@ -67,6 +67,13 @@ class Trie {
         Node ptr = root;
 			for(int i = 0; i<word.length(); i++) {
 				char ch = word.charAt(i);
+                if(ch == '.'){
+                    for(Character ch2 : ptr.children.keySet()){
+                        if(search(word.substring(i+1)) == true){
+                            return true;
+                        }
+                    }
+                }
 				if(ptr.hasChild(ch)) {
 					ptr = ptr.getChild(ch);
 				}
