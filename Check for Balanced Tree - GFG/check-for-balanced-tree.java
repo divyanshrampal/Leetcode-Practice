@@ -138,19 +138,42 @@ class Tree
          return Math.max(height(node.left) , height(node.right)) + 1;
     }
     
+    
+    class Pair{
+        boolean balanced;
+        int height;
+        
+        Pair(boolean balanced, int height){
+            this.balanced = balanced;
+            this.height = height;
+        }
+    }
+    
+    Pair isBalancedHelper(Node root)
+    {
+        if(root == null){
+            return new Pair(true, 0);
+        }
+        
+        Pair left = isBalancedHelper(root.left);
+        Pair right = isBalancedHelper(root.right);
+        
+        boolean leftAns = left.balanced;
+        boolean rightAns = right.balanced;
+        
+        boolean difference = Math.abs(left.height - right.height) <= 1;
+        int ansHeight = Math.max(left.height, right.height) + 1;
+        boolean ansBalanced = leftAns && rightAns && difference;
+        Pair ans = new Pair(ansBalanced, ansHeight);
+        
+        return ans;
+    }
+    
     //Function to check whether a binary tree is balanced or not.
     boolean isBalanced(Node root)
     {
-        if(root == null){
-            return true;
-        }
-        
-        boolean leftAns = isBalanced(root.left);
-        boolean rightAns = isBalanced(root.right);
-        
-        boolean ans = Math.abs(height(root.left) - height(root.right)) <= 1;
-        
-        return leftAns && rightAns && ans;
+
+        return isBalancedHelper(root).balanced;
     }
 }
 
