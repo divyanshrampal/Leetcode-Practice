@@ -15,23 +15,39 @@
  */
 class Solution {
     
-    public int maxDepth(TreeNode root) {
-        if(root == null){
-            return 0;
-        }
+    class Pair{
+        int diameter;
+        int height;
         
-        return Math.max(maxDepth(root.left) , maxDepth(root.right)) + 1;
+        Pair(int diameter, int height){
+            this.diameter = 0;
+            this.height = 0;
+        }
     }
     
-    public int diameterOfBinaryTree(TreeNode root) {
+    public Pair diameterHelper(TreeNode root){
         if(root == null){
-            return 0;
+            return new Pair(0, 0);
         }
         
-        int op1 = diameterOfBinaryTree(root.left);
-        int op2 = diameterOfBinaryTree(root.right);
-        int op3 = maxDepth(root.left) + maxDepth(root.right);
+        Pair left = diameterHelper(root.left);
+        Pair right = diameterHelper(root.right);
         
-        return Math.max(op1, Math.max(op2, op3));
+        int op1 = left.diameter;
+        int op2 = right.diameter;
+        int op3 = left.height + right.height;
+        
+        Pair ans = new Pair(0,0);
+        ans.diameter = Math.max(op1, Math.max(op2, op3));
+        ans.height = Math.max(left.height, right.height) + 1;
+        
+        return ans;
+    }
+    
+    
+    public int diameterOfBinaryTree(TreeNode root) {
+        
+        return diameterHelper(root).diameter;
+        
     }
 }
