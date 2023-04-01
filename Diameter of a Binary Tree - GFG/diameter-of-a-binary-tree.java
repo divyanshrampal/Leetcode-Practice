@@ -117,23 +117,36 @@ class GfG {
 
 class Solution {
     // Function to return the diameter of a Binary Tree.
-    int maxDepth(Node root) {
+     class Pair{
+        int diameter;
+        int height;
+        
+        Pair(int diameter, int height){
+            this.diameter = 0;
+            this.height = 0;
+        }
+    }
+    
+    public Pair diameterHelper(Node root){
         if(root == null){
-            return 0;
+            return new Pair(0, 0);
         }
         
-        return Math.max(maxDepth(root.left) , maxDepth(root.right)) + 1;
+        Pair left = diameterHelper(root.left);
+        Pair right = diameterHelper(root.right);
+        
+        int op1 = left.diameter;
+        int op2 = right.diameter;
+        int op3 = left.height + right.height + 1;
+        
+        Pair ans = new Pair(0,0);
+        ans.diameter = Math.max(op1, Math.max(op2, op3));
+        ans.height = Math.max(left.height, right.height) + 1;
+        
+        return ans;
     }
     
     int diameter(Node root) {
-        if(root == null){
-            return 0;
-        }
-        
-        int op1 = diameter(root.left);
-        int op2 = diameter(root.right);
-        int op3 = maxDepth(root.left) + maxDepth(root.right) + 1;
-        
-        return Math.max(op1, Math.max(op2, op3));
+        return diameterHelper(root).diameter;
     }
 }
