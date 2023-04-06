@@ -15,42 +15,45 @@
  */
 class Solution {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+         Queue<TreeNode> que = new LinkedList<>();
+         int flag = -1;
+         que.add(root);
+         List<List<Integer>> ans = new ArrayList<>();   
+
+         while(que.size() != 0)
+         {
+              int size = que.size();
+              List<Integer> list = new ArrayList<>();
+              flag++;
+              while(size-- > 0)
+              {
+                  TreeNode rem = que.remove();
+                  if(rem == null)
+                  {
+                      continue;
+                  }
+                  list.add(rem.val);
+                  que.add(rem.left);
+                  que.add(rem.right);
+              }
+              if(flag % 2 == 0){
+                  if(list.size() > 0)
+                   ans.add(list);
+              }
+              else{
+                  if(list.size() > 0){
+                      List<Integer> revlist = new ArrayList<>();
+                      for(int i = list.size() - 1; i >= 0; i--){
+                          revlist.add(list.get(i));
+                      }
+                      ans.add(revlist);
+                  }
+              }
+              
+         }
+
+         return ans;
         
-        List<List<Integer>> ans = new ArrayList<>();
-        if(root == null){
-            return ans;
-        }
         
-        boolean leftToRight = true;
-        
-        
-        Queue<TreeNode> q = new LinkedList();
-        q.add(root);
-        
-        while(q.size() > 0){
-            int size = q.size();
-            
-            Integer[] list = new Integer[size];
-            for(int i = 0; i< size; i++){
-                
-                TreeNode front = q.remove();
-                int index = leftToRight ? i : size - i - 1;
-                list[index] = front.val;
-                if(front.left != null){
-                    q.add(front.left);
-                }
-                if(front.right != null){
-                    q.add(front.right);
-                }
-            }
-            leftToRight = !leftToRight;
-            if(list.length > 0){
-                List<Integer> arr = Arrays.asList(list);
-                ans.add(arr);
-            }
-            
-        }
-        
-        return ans;
     }
 }
