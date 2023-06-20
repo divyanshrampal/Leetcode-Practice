@@ -41,22 +41,16 @@ class Solution {
 	{ 
 	    int[] ans = new int[n];
 	    Stack<Integer> st = new Stack<>();
-	    
-	    for(int i = n - 1; i >= 0; i--){
-	        while(st.size() > 0 && st.peek() >= arr[i]){
-	            st.pop();
-	        }
-	        
-	        int x = -1;
-	        if(st.size() > 0){
-	            x = st.peek();
-	        }
-	        
-	        ans[i] = x;
-	        
-	        st.push(arr[i]);
-	    }
-	    
-	    return ans;
+        st.push(-1);
+        for(int i = n - 1; i >=0 ; i--){
+            int curr = arr[i];
+            while(st.peek() >= curr){
+                    st.pop();
+                }
+            ans[i] = st.peek();
+            st.push(curr);
+        }
+        
+        return ans;
 	} 
 }
