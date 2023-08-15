@@ -35,49 +35,36 @@ class Driverclass
 class Solution
 {
     //Function to check if brackets are balanced or not.
+    
+    static boolean isOpening(char ch){
+        return ch == '{' || ch == '[' || ch == '('; 
+    }
+    
     static boolean ispar(String x)
     {
-        
-        Stack<Character> s = new Stack();
-        for(int i = 0; i<x.length(); i++){
-            
-            char bracket = x.charAt(i);
-            
-            if(bracket == '{' || bracket == '(' || bracket == '[' ){
-                s.push(bracket);
+        Stack<Character> st = new Stack<>();
+        for(int i = 0; i < x.length(); i++){
+            char ch = x.charAt(i);
+            if(isOpening(ch) == true){
+                st.push(ch);
             }
-            
-            if(bracket == '}'){
-                if(s.size() == 0) return false;
-                char ch = s.pop();
-                if(ch != '{'){
+            else{
+                if (st.isEmpty()){
                     return false;
                 }
-            }
-            
-            if(bracket == ']'){
-                if(s.size() == 0) return false;
-                char ch = s.pop();
-                if(ch != '['){
+                if(ch == '}' && st.pop() != '{'){
                     return false;
                 }
-            }
-            
-            if(bracket == ')'){
-                if(s.size() == 0) return false;
-                char ch = s.pop();
-                if(ch != '('){
+                if(ch == ']' && st.pop() != '['){
+                    return false;
+                }
+                if(ch == ')' && st.pop() != '('){
                     return false;
                 }
             }
         }
         
-        if(s.size() == 0){
-            return true;
-        }
-        else{
-            return false;
-        }
         
+        return (st.isEmpty());
     }
 }
