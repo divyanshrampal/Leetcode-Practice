@@ -38,10 +38,21 @@ class Solution {
     }
 
     public int rob(int[] nums) {
-        //return robWithRecursion(nums, 0);
-
         int[] dp = new int[nums.length + 1];
         Arrays.fill(dp, -1);
-        return robWithMemoization(nums, 0, dp);
+
+        dp[nums.length] = 0;
+
+        for(int i = nums.length -1; i >= 0; i--){
+            int include = nums[i];
+            if(i+2 <= nums.length)
+                include = include + dp[i+2];
+            int exclude = dp[i+1];
+            dp[i] = Math.max( include, exclude);
+
+        }
+
+        return dp[0];
+        
     }
 }
